@@ -1,43 +1,72 @@
-import '#/styles/globals.css'
-import { AddressBar } from '#/ui/address-bar'
-import Byline from '#/ui/byline'
-import { GlobalNav } from '#/ui/global-nav'
 import { Metadata } from 'next'
+import { Inter as FontSans } from 'next/font/google'
+import { Analytics } from '~/src/components/analytics'
+import { siteConfig } from '~/src/config/site'
+import clsx from 'clsx'
+import '~/src/styles/globals.css'
+
+const fontSans = FontSans({
+	subsets: ['latin'],
+	variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Next.js App Router',
-    template: '%s | Next.js App Router',
-  },
-  description:
-    'A playground to explore new Next.js App Router features such as nested layouts, instant loading states, streaming, and component level data fetching.',
+	title: {
+		default: siteConfig.name,
+		template: `%s - ${siteConfig.name}`,
+	},
+	description: siteConfig.description,
+	keywords: [
+		'Next.js',
+		'React',
+		'Tailwind CSS',
+		'Server Components',
+		'Attendance',
+		'Tracking',
+	],
+	authors: [
+		{
+			name: 'Marcus Rodrigues',
+			url: 'https://mrodrigues.me',
+		},
+	],
+	creator: 'Marcus Rodrigues',
+	openGraph: {
+		type: 'website',
+		locale: 'en_US',
+		url: siteConfig.url,
+		title: siteConfig.name,
+		description: siteConfig.description,
+		siteName: siteConfig.name,
+		images: [
+			{
+				url: siteConfig.ogImage,
+				width: 1920,
+				height: 1080,
+				alt: siteConfig.name,
+			},
+		],
+	},
+	icons: {
+		icon: '/favicon.ico',
+	},
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <html lang="en" className="[color-scheme:dark]">
-      <body className="bg-gray-1100 overflow-y-scroll bg-[url('/grid.svg')] pb-36">
-        <GlobalNav />
-
-        <div className="lg:pl-72">
-          <div className="mx-auto max-w-4xl space-y-8 px-2 pt-20 lg:py-8 lg:px-8">
-            <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-              <div className="rounded-lg bg-black">
-                <AddressBar />
-              </div>
-            </div>
-
-            <div className="rounded-lg bg-vc-border-gradient p-px shadow-lg shadow-black/20">
-              <div className="rounded-lg bg-black p-3.5 lg:p-6">{children}</div>
-            </div>
-            <Byline className="fixed sm:hidden" />
-          </div>
-        </div>
-      </body>
-    </html>
-  )
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<html lang="en">
+			<head />
+			<body
+				className={clsx(
+					'min-h-screen font-sans antialiased',
+					fontSans.variable,
+				)}
+			>
+				{children}
+				<Analytics />
+			</body>
+		</html>
+	)
 }
+
+export default RootLayout
