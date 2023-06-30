@@ -25,11 +25,6 @@ module.exports = {
 		'^~/src/(.*)$',
 		'^[./]',
 	],
-	importOrderSeparation: false,
-	importOrderSortSpecifiers: true,
-	importOrderBuiltinModulesToTop: true,
-	importOrderMergeDuplicateImports: true,
-	importOrderCombineTypeAndValueImports: true,
 	importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
 	overrides: [
 		{
@@ -39,5 +34,5 @@ module.exports = {
 			},
 		},
 	],
-	plugins: [require.resolve('@ianvs/prettier-plugin-sort-imports')],
+	plugins: ['@ianvs/prettier-plugin-sort-imports'],
 };
