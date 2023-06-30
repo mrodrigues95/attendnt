@@ -1,14 +1,17 @@
-import { Metadata } from 'next'
-import { Inter as FontSans } from 'next/font/google'
-import { Analytics } from '~/src/components/analytics'
-import { siteConfig } from '~/src/config/site'
-import clsx from 'clsx'
-import '~/src/styles/globals.css'
+import '~/src/styles/globals.css';
+
+import { ReactNode } from 'react';
+import { Metadata } from 'next';
+import { Inter as FontSans } from 'next/font/google';
+
+import { Analytics } from '~/src/components';
+import { siteConfig } from '~/src/config/site';
+import { cn } from '~/src/lib/utils';
 
 const fontSans = FontSans({
 	subsets: ['latin'],
 	variable: '--font-sans',
-})
+});
 
 export const metadata: Metadata = {
 	title: {
@@ -50,23 +53,19 @@ export const metadata: Metadata = {
 	icons: {
 		icon: '/favicon.ico',
 	},
-}
+};
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<html lang="en">
-			<head />
 			<body
-				className={clsx(
-					'min-h-screen font-sans antialiased',
-					fontSans.variable,
-				)}
+				className={cn('min-h-screen font-sans antialiased', fontSans.variable)}
 			>
 				{children}
 				<Analytics />
 			</body>
 		</html>
-	)
-}
+	);
+};
 
-export default RootLayout
+export default RootLayout;

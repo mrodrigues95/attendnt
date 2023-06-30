@@ -7,4 +7,4 @@ export const siteConfig = {
 		twitter: 'TODO',
 		github: 'https://github.com/mrodrigues95/attendnt',
 	},
-}
+};

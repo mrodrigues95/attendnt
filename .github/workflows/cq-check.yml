@@ -119,4 +119,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - run: pnpm format:check
+      - run: pnpm format

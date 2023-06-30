@@ -11,12 +11,26 @@ module.exports = {
 	proseWrap: 'always',
 	quoteProps: 'as-needed',
 	requirePragma: false,
-	semi: false,
+	semi: true,
 	singleAttributePerLine: false,
 	singleQuote: true,
 	tabWidth: 2,
 	trailingComma: 'all',
 	useTabs: true,
+	importOrder: [
+		'^(react/(.*)$)|^(react$)',
+		'^(next/(.*)$)|^(next$)',
+		'<THIRD_PARTY_MODULES>',
+		'',
+		'^~/src/(.*)$',
+		'^[./]',
+	],
+	importOrderSeparation: false,
+	importOrderSortSpecifiers: true,
+	importOrderBuiltinModulesToTop: true,
+	importOrderMergeDuplicateImports: true,
+	importOrderCombineTypeAndValueImports: true,
+	importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'],
 	overrides: [
 		{
 			files: ['**/*.json'],
@@ -25,4 +39,5 @@ module.exports = {
 			},
 		},
 	],
-}
+	plugins: [require.resolve('@ianvs/prettier-plugin-sort-imports')],
+};
