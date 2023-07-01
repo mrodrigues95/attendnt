@@ -1,26 +1,29 @@
 import { forwardRef } from 'react';
-import { ChangeHandler } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
+import { mergeRefs } from '~/src/lib/utils';
 import { Input, InputProps } from '../input/input';
-import { useFormError } from './form';
 
-interface FormInputProps extends Omit<InputProps, 'onChange'> {
-	label?: string;
-	onChange?: ChangeHandler;
+interface FormInputProps extends InputProps {
+	name: string;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-	({ onChange, ...props }, ref) => {
-		const error = useFormError({ name: props.name });
-
-		console.log(error);
+	(props, ref) => {
+		const form = useFormContext();
 
 		return (
-			<Input
-				onChange={value => onChange?.({ target: { value } })}
-				errorMessage={String(error?.message)}
-				{...props}
-				ref={ref}
+			<Controller
+				name={props.name}
+				control={form.control}
+				render={({ field, fieldState }) => (
+					<Input
+						errorMessage={fieldState.error?.message}
+						{...field}
+						{...props}
+						ref={mergeRefs(ref, field.ref)}
+					/>
+				)}
 			/>
 		);
 	},

@@ -12,6 +12,7 @@ import {
 import { TypeOf, ZodSchema } from 'zod';
 
 import { FormInput } from './form-input';
+import { FormSubmitButton } from './form-submit-button';
 
 interface UseFormErrorProps {
 	name?: string;
@@ -63,3 +64,4 @@ export const Form = <T extends FieldValues>({
 );
 
 Form.Input = FormInput;
+Form.SubmitButton = FormSubmitButton;
