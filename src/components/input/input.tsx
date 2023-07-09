@@ -63,18 +63,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 					labelProps?.className,
 				)}
 			>
-				{label} {isRequired && <span aria-hidden="true">*</span>}
+				{label} {isRequired && <i aria-hidden="true">*</i>}
 			</AriaLabel>
 			<AriaInput
 				{...inputProps}
 				placeholder={placeholder}
 				className={cn(
-					'block w-full rounded-md border border-slate-300 shadow-sm px-3 py-2 text-sm bg-white',
-					'focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400',
+					'block w-full rounded-md border border-slate-300 shadow-sm px-3 py-2 text-sm outline-none bg-white ring-offset-4',
+					'focus:border-blue-400 focus:ring-4 focus:ring-blue-200',
 					'placeholder:text-slate-400',
 					'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none',
-					'focus:aria-invalid:border-red-500 focus:aria-invalid:ring-red-500',
-					'focus:invalid:border-red-500 focus:invalid:ring-red-500',
+					'focus:aria-invalid:border-red-200 focus:aria-invalid:ring-red-200',
+					'focus:invalid:border-red-500 focus:invalid:ring-red-200',
 					'aria-invalid:border-red-500 aria-invalid:text-red-600',
 					'invalid:border-red-500 invalid:text-red-600',
 					inputProps?.className,

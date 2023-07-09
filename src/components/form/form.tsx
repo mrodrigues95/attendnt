@@ -1,67 +1,121 @@
-import { ComponentProps } from 'react';
+import {
+	ComponentProps,
+	createContext,
+	Dispatch,
+	ReactNode,
+	SetStateAction,
+	useCallback,
+	useContext,
+	useMemo,
+	useState,
+} from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	FieldValues,
 	FormProvider,
+	SubmitErrorHandler,
 	SubmitHandler,
-	useFormContext,
 	UseFormReturn,
+	UseFormSetError,
 	useForm as useHookForm,
 	UseFormProps as UseHookFormProps,
 } from 'react-hook-form';
 import { TypeOf, ZodSchema } from 'zod';
 
+import { Tail } from '~/src/lib/types';
+import { FormImperativeSubmitButton } from './form-imperative-submit-button';
 import { FormInput } from './form-input';
 import { FormSubmitButton } from './form-submit-button';
 
-interface UseFormErrorProps {
-	name?: string;
+interface ImperativeForm {
+	isSubmissionBlocked: boolean;
+	onBlockSubmission: Dispatch<SetStateAction<boolean>>;
 }
 
-export const useFormError = ({ name }: UseFormErrorProps) => {
-	const {
-		formState: { errors },
-	} = useFormContext();
+const ImperativeFormContext = createContext<ImperativeForm | null>(null);
 
-	if (!name) {
-		return null;
-	}
+export const useImperativeForm = () =>
+	useContext(ImperativeFormContext) as ImperativeForm;
 
-	return errors[name];
+const ImperativeFormProvider = ({
+	children,
+}: {
+	children: (ctx: ImperativeForm) => ReactNode;
+}) => {
+	const [isSubmissionBlocked, setIsSubmissionBlocked] = useState(false);
+
+	const onBlockSubmission = useCallback(setIsSubmissionBlocked, [
+		setIsSubmissionBlocked,
+	]);
+
+	const ctx = useMemo(
+		() => ({ isSubmissionBlocked, onBlockSubmission }),
+		[isSubmissionBlocked, onBlockSubmission],
+	);
+
+	return (
+		<ImperativeFormContext.Provider value={ctx}>
+			{children(ctx)}
+		</ImperativeFormContext.Provider>
+	);
 };
 
-interface UseFormProps<T extends ZodSchema<any>>
-	extends UseHookFormProps<TypeOf<T>> {
-	schema: T;
+interface UseFormProps<TSchema extends ZodSchema<any>>
+	extends UseHookFormProps<TypeOf<TSchema>> {
+	schema: TSchema;
 }
 
-export const useForm = <T extends ZodSchema<any>>({
+export const useForm = <TSchema extends ZodSchema<any>>({
 	schema,
 	...formConfig
-}: UseFormProps<T>) =>
-	useHookForm({
+}: UseFormProps<TSchema>) => {
+	const form = useHookForm({
 		...formConfig,
 		resolver: zodResolver(schema),
 	});
 
-interface FormProps<T extends FieldValues = any>
-	extends Omit<ComponentProps<'form'>, 'onSubmit'> {
-	form: UseFormReturn<T>;
-	onSubmit: SubmitHandler<T>;
+	return {
+		...form,
+		setServerError: useCallback(
+			(...args: Tail<Parameters<UseFormSetError<TSchema>>>) =>
+				form.setError('root.serverError', ...args),
+			[form],
+		),
+	};
+};
+
+interface FormProps<TFieldValues extends FieldValues = any>
+	extends Omit<ComponentProps<'form'>, 'onSubmit' | 'onError'> {
+	'aria-label': string;
+	form: UseFormReturn<TFieldValues>;
+	onSubmit: SubmitHandler<TFieldValues>;
+	onError?: SubmitErrorHandler<TFieldValues>;
 }
 
-export const Form = <T extends FieldValues>({
+export const Form = <TFieldValues extends FieldValues>({
 	form,
 	onSubmit,
+	onError,
 	children,
 	...props
-}: FormProps<T>) => (
-	<FormProvider {...form}>
-		<form onSubmit={form.handleSubmit(onSubmit)} {...props}>
-			{children}
-		</form>
-	</FormProvider>
+}: FormProps<TFieldValues>) => (
+	<ImperativeFormProvider>
+		{({ isSubmissionBlocked }) => (
+			<FormProvider {...form}>
+				<form
+					onSubmit={form.handleSubmit(
+						isSubmissionBlocked ? () => {} : onSubmit,
+						onError,
+					)}
+					{...props}
+				>
+					{children}
+				</form>
+			</FormProvider>
+		)}
+	</ImperativeFormProvider>
 );
 
 Form.Input = FormInput;
-Form.SubmitButton = FormSubmitButton;
+Form.Submit = FormSubmitButton;
+Form.ImperativeSubmit = FormImperativeSubmitButton;

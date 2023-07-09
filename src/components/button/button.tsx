@@ -1,6 +1,5 @@
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
-import { Loader2 } from 'lucide-react';
 import {
 	Button as AriaButton,
 	ButtonProps as AriaButtonProps,
@@ -40,48 +39,16 @@ const buttonVariants = cva(
 
 export interface ButtonProps
 	extends AriaButtonProps,
-		VariantProps<typeof buttonVariants> {
-	icon?: ReactNode;
-	iconPlacement?: 'left' | 'right';
-	isBusy?: boolean;
-}
+		VariantProps<typeof buttonVariants> {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-	(
-		{
-			variant = 'default',
-			size = 'sm',
-			isBusy = false,
-			iconPlacement = 'left',
-			icon,
-			className,
-			children,
-			...props
-		},
-		ref,
-	) => {
-		const icn = isBusy ? (
-			<Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-		) : (
-			icon
-		);
-
-		return (
-			<AriaButton
-				className={cn(buttonVariants({ variant, size, className }))}
-				ref={ref}
-				{...props}
-			>
-				{renderProps => (
-					<>
-						{iconPlacement === 'left' && icn}
-						{typeof children === 'function' ? children(renderProps) : children}
-						{iconPlacement === 'right' && icn}
-					</>
-				)}
-			</AriaButton>
-		);
-	},
+	({ variant, size, className, ...props }, ref) => (
+		<AriaButton
+			className={cn(buttonVariants({ variant, size, className }))}
+			ref={ref}
+			{...props}
+		/>
+	),
 );
 
 Button.displayName = 'Button';

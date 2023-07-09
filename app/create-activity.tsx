@@ -1,9 +1,8 @@
 'use client';
 
-import { Loader2 } from 'lucide-react';
 import { z } from 'zod';
 
-import { Button, Form, useForm } from '~/src/components';
+import { Form, useForm } from '~/src/components';
 
 const schema = z.object({
 	activity: z
@@ -18,9 +17,10 @@ const CreateActivity = () => {
 	return (
 		<Form
 			form={form}
-			onSubmit={async () => {
+			aria-label="Create an activity"
+			onSubmit={async data => {
 				console.log('Submitting...');
-				await new Promise(res => setTimeout(res, 500));
+				await new Promise<number>((res, rej) => setTimeout(() => res(2), 2000));
 			}}
 		>
 			<Form.Input
@@ -29,7 +29,7 @@ const CreateActivity = () => {
 				className="mb-9"
 				isRequired
 			/>
-			<Form.SubmitButton>Test</Form.SubmitButton>
+			<Form.ImperativeSubmit>Submit</Form.ImperativeSubmit>
 		</Form>
 	);
 };
