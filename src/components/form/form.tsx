@@ -78,7 +78,7 @@ export const useForm = <TSchema extends ZodSchema<any>>({
 		...form,
 		setServerError: useCallback(
 			(...args: Tail<Parameters<UseFormSetError<TSchema>>>) =>
-				form.setError('root.serverError', ...args),
+				form.setError('root.server', ...args),
 			[form],
 		),
 	};

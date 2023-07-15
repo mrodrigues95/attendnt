@@ -1,4 +1,4 @@
-import CreateActivity from './create-activity';
+import CreateActivityForm from './create-activity-form';
 
 const Page = () => {
 	return (
@@ -8,7 +8,7 @@ const Page = () => {
 				<h2>
 					A simple, generic and easy tool to track attendance for any purpose.
 				</h2>
-				<CreateActivity />
+				<CreateActivityForm />
 			</section>
 		</main>
 	);

@@ -28,7 +28,7 @@ export const FormImperativeSubmitButton = ({
 	const isSubmitSuccessful =
 		formState.isSubmitted &&
 		formState.isSubmitSuccessful &&
-		!formState.errors.root?.serverError &&
+		!formState.errors.root?.server &&
 		!isSubmitting;
 
 	const isDisabled = isSubmitting || isSubmitSuccessful;

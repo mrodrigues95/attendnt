@@ -3,6 +3,7 @@
 import { z } from 'zod';
 
 import { Form, useForm } from '~/src/components';
+import { createActivity } from './actions';
 
 const schema = z.object({
 	activity: z
@@ -11,17 +12,22 @@ const schema = z.object({
 		.max(256, 'Activity has exceeded the maximum character length.'),
 });
 
-const CreateActivity = () => {
-	const form = useForm({ schema, defaultValues: { activity: '' } });
+const CreateActivityForm = () => {
+	const form = useForm({
+		schema,
+		progressive: true,
+		defaultValues: { activity: '' },
+	});
 
 	return (
 		<Form
 			form={form}
 			aria-label="Create an activity"
-			onSubmit={async data => {
-				console.log('Submitting...');
-				await new Promise<number>((res, rej) => setTimeout(() => res(2), 2000));
-			}}
+			onSubmit={data =>
+				createActivity(data.activity).catch(err =>
+					form.setServerError({ message: err }),
+				)
+			}
 		>
 			<Form.Input
 				name="activity"
@@ -34,4 +40,4 @@ const CreateActivity = () => {
 	);
 };
 
-export default CreateActivity;
+export default CreateActivityForm;
