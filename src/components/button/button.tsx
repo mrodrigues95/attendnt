@@ -1,9 +1,12 @@
-import { forwardRef } from 'react';
+import { forwardRef, RefObject } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import {
-	Button as AriaButton,
-	ButtonProps as AriaButtonProps,
-} from 'react-aria-components';
+	AriaButtonProps,
+	mergeProps,
+	useButton,
+	useFocusRing,
+	useHover,
+} from 'react-aria';
 
 import { cn } from '~/src/lib/utils';
 
@@ -39,16 +42,36 @@ const buttonVariants = cva(
 
 export interface ButtonProps
 	extends AriaButtonProps,
-		VariantProps<typeof buttonVariants> {}
+		VariantProps<typeof buttonVariants> {
+	className?: string;
+	'aria-disabled'?: boolean | 'true' | 'false';
+}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-	({ variant, size, className, ...props }, ref) => (
-		<AriaButton
-			className={cn(buttonVariants({ variant, size, className }))}
-			ref={ref}
-			{...props}
-		/>
-	),
+	({ variant, size, className, ...props }, ref) => {
+		const { children } = props;
+		const { buttonProps, isPressed } = useButton(
+			props,
+			ref as RefObject<HTMLButtonElement>,
+		);
+		const { focusProps, isFocused, isFocusVisible } = useFocusRing(props);
+		const { hoverProps, isHovered } = useHover(props);
+
+		return (
+			<button
+				{...mergeProps(buttonProps, focusProps, hoverProps)}
+				className={cn(buttonVariants({ variant, size, className }))}
+				ref={ref}
+				aria-disabled={props['aria-disabled'] || undefined}
+				data-pressed={isPressed || undefined}
+				data-hovered={isHovered || undefined}
+				data-focused={isFocused || undefined}
+				data-focus-visible={isFocusVisible || undefined}
+			>
+				{children}
+			</button>
+		);
+	},
 );
 
 Button.displayName = 'Button';
