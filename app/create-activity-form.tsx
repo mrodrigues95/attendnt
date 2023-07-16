@@ -3,6 +3,7 @@
 import { z } from 'zod';
 
 import { Form, useForm } from '~/src/components';
+import { useAppUserId } from '~/src/lib/hooks';
 import { createActivity } from './actions';
 
 const schema = z.object({
@@ -13,18 +14,15 @@ const schema = z.object({
 });
 
 const CreateActivityForm = () => {
-	const form = useForm({
-		schema,
-		progressive: true,
-		defaultValues: { activity: '' },
-	});
+	const { userId } = useAppUserId();
+	const form = useForm({ schema, defaultValues: { activity: '' } });
 
 	return (
 		<Form
 			form={form}
 			aria-label="Create an activity"
 			onSubmit={data =>
-				createActivity(data.activity).catch(err =>
+				createActivity(userId!, data.activity).catch(err =>
 					form.setServerError({ message: err }),
 				)
 			}

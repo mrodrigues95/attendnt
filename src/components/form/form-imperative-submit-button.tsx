@@ -61,7 +61,7 @@ export const FormImperativeSubmitButton = ({
 			>
 				{isSubmitting && <Spinner size="sm" />}
 				{isSubmitSuccessful && <Icon name="Check" size="sm" />}
-				{!isDisabled && (children as any)}
+				{!isDisabled && children}
 			</Button>
 		</div>
 	);

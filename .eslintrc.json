@@ -6,6 +6,15 @@
     "plugin:tailwindcss/recommended"
   ],
   "plugins": ["tailwindcss"],
+  "rules": {
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "error"
+  },
+  "settings": {
+    "tailwindcss": {
+      "config": "tailwind.config.js"
+    }
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js"],

@@ -7,6 +7,7 @@ import { Inter as FontSans } from 'next/font/google';
 import { Analytics } from '~/src/components';
 import { siteConfig } from '~/src/config/site';
 import { cn } from '~/src/lib/utils';
+import { InitializeAppUser } from './initialize-app-user';
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -63,6 +64,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 			>
 				{children}
 				<Analytics />
+				<InitializeAppUser />
 			</body>
 		</html>
 	);
