@@ -1,3 +1,5 @@
+'use client';
+
 import { forwardRef, RefObject } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import {
@@ -11,7 +13,7 @@ import {
 import { cn } from '~/src/lib/utils';
 
 const buttonVariants = cva(
-	'inline-flex select-none items-center justify-center gap-2 rounded-lg text-sm font-medium outline-none transition-colors disabled:pointer-events-none disabled:opacity-50 data-[focus-visible=true]:outline-none data-[focus-visible=true]:ring',
+	'inline-flex select-none items-center justify-center gap-2 rounded-lg text-sm font-medium outline-none transition duration-150 disabled:pointer-events-none disabled:opacity-50 data-[focus-visible=true]:outline-none data-[focus-visible=true]:ring',
 	{
 		variants: {
 			variant: {

@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '~/src/lib/utils';
 import { Icon, IconProps } from '../icon/icon';
 

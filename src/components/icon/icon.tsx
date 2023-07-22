@@ -1,3 +1,5 @@
+'use client';
+
 import { cva, VariantProps } from 'class-variance-authority';
 // @ts-ignore: https://github.com/lucide-icons/lucide/issues/1373
 import { icons, LucideProps } from 'lucide-react';
