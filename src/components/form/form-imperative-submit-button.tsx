@@ -42,6 +42,9 @@ export const FormImperativeSubmitButton = ({
 		: undefined;
 
 	useEffect(() => {
+		// Avoid using `e.preventDefault()` for this, react-aria normalizes button events with
+		// `usePress()` for various reasons.
+		// See https://react-spectrum.adobe.com/blog/building-a-button-part-1.html
 		if (isDisabled) {
 			onBlockSubmission(true);
 		} else {
@@ -62,7 +65,7 @@ export const FormImperativeSubmitButton = ({
 				{...props}
 			>
 				{isSubmitting && <Spinner size="sm" />}
-				{isSubmitSuccessful && <Icon name="Check" size="sm" />}
+				{isSubmitSuccessful && <Icon name="check" size="sm" />}
 				{!isDisabled && children}
 			</Button>
 		</div>

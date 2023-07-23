@@ -8,7 +8,7 @@ interface SpinnerProps extends Omit<IconProps, 'name'> {}
 export const Spinner = (props: SpinnerProps) => (
 	<Icon
 		{...props}
-		name="Loader2"
+		name="loader-2"
 		className={cn('animate-spin', props.className)}
 	/>
 );

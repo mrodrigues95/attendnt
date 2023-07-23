@@ -1,8 +1,9 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { cva, VariantProps } from 'class-variance-authority';
-// @ts-ignore: https://github.com/lucide-icons/lucide/issues/1373
-import { icons, LucideProps } from 'lucide-react';
+import { LucideProps } from 'lucide-react';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
 
 import { cn } from '~/src/lib/utils';
 
@@ -22,11 +23,11 @@ const spinnerVariants = cva('', {
 export interface IconProps
 	extends Omit<LucideProps, 'size'>,
 		VariantProps<typeof spinnerVariants> {
-	name: string;
+	name:  keyof typeof dynamicIconImports;
 }
 
 export const Icon = ({ name, size, className, ...props }: IconProps) => {
-	const LucideIcon = icons[name];
+	const LucideIcon = dynamic(dynamicIconImports[name])
 
 	return (
 		<LucideIcon
