@@ -52,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			isRequired={isRequired}
 			className={cn(
 				'flex flex-col w-full max-w-sm gap-2',
-				errorMessage && 'text-red-500',
+				errorMessage && 'text-red-600',
 				className,
 			)}
 			{...props}
@@ -65,7 +65,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 					labelProps?.className,
 				)}
 			>
-				{label} {isRequired && <i aria-hidden="true">*</i>}
+				{label} {isRequired && <i aria-hidden>*</i>}
 			</AriaLabel>
 			<AriaInput
 				{...inputProps}
@@ -73,12 +73,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 				className={cn(
 					'block w-full rounded-md border border-slate-300 shadow-sm px-3 py-2 text-sm outline-none bg-white ring-offset-4 transition duration-150',
 					'focus:border-blue-400 focus:ring-4 focus:ring-blue-200',
+					'aria-invalid:border-red-400 focus:aria-invalid:ring-red-200',
 					'placeholder:text-slate-400',
 					'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none',
-					'focus:aria-invalid:border-red-200 focus:aria-invalid:ring-red-200',
-					'focus:invalid:border-red-500 focus:invalid:ring-red-200',
-					'aria-invalid:border-red-500 aria-invalid:text-red-600',
-					'invalid:border-red-500 invalid:text-red-600',
 					inputProps?.className,
 				)}
 			/>

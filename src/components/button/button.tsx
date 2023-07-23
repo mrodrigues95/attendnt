@@ -12,15 +12,19 @@ import {
 
 import { cn } from '~/src/lib/utils';
 
-const buttonVariants = cva(
-	'inline-flex select-none items-center justify-center gap-2 rounded-lg text-sm font-medium outline-none transition duration-150 disabled:pointer-events-none disabled:opacity-50 data-[focus-visible=true]:outline-none data-[focus-visible=true]:ring',
+export const buttonVariants = cva(
+	[
+		'inline-flex select-none items-center justify-center gap-2 rounded-lg text-sm font-medium outline-none ring-offset-white transition duration-150',
+		'disabled:pointer-events-none disabled:opacity-50',
+		'focus-visible:outline-none focus-visible:ring data-[focus-visible=true]:outline-none data-[focus-visible=true]:ring',
+	],
 	{
 		variants: {
 			variant: {
 				default:
 					'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900',
 				danger:
-					'text-red-600 hover:bg-red-100 data-[focus-visible=true]:bg-red-100 data-[focus-visible=true]:ring-red-600',
+					'text-red-600 hover:bg-red-100 focus-visible:bg-red-100 focus-visible:ring-red-600 data-[focus-visible=true]:bg-red-100 data-[focus-visible=true]:ring-red-600',
 				outline:
 					'border-2 border-slate-200 bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900',
 				ghost:

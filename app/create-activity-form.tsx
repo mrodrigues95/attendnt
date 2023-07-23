@@ -3,7 +3,8 @@
 import { z } from 'zod';
 
 import { Form, useForm } from '~/src/components';
-import { useAppUserId } from '~/src/lib/hooks';
+import { Toast } from '~/src/components/toast/toast';
+import { useAppUserId, useToast } from '~/src/lib/hooks';
 import { createActivity } from './actions';
 
 const schema = z.object({
@@ -11,11 +12,19 @@ const schema = z.object({
 		.string()
 		.min(1, 'Activity must be atleast 1 characters long.')
 		.max(256, 'Activity has exceeded the maximum character length.'),
+	firstName: z
+		.string()
+		.min(1, 'First name must be atleast 1 characters long.')
+		.max(256, 'First name has exceeded the maximum character length.'),
 });
 
 const CreateActivityForm = () => {
 	const { userId } = useAppUserId();
-	const form = useForm({ schema, defaultValues: { activity: '' } });
+	const { toast } = useToast();
+	const form = useForm({
+		schema,
+		defaultValues: { activity: '', firstName: '' },
+	});
 
 	return (
 		<Form
@@ -27,12 +36,8 @@ const CreateActivityForm = () => {
 				)
 			}
 		>
-			<Form.Input
-				name="activity"
-				label="Activity"
-				className="mb-9"
-				isRequired
-			/>
+			<Form.Input name="activity" label="Activity" isRequired />
+			<Form.Input name="firstName" label="First Name" isRequired />
 			<Form.ImperativeSubmit>Submit</Form.ImperativeSubmit>
 		</Form>
 	);

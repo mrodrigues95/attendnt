@@ -34,5 +34,9 @@ module.exports = {
 			},
 		},
 	],
-	plugins: ['@ianvs/prettier-plugin-sort-imports'],
+	tailwindFunctions: ['cn', 'cva'],
+	plugins: [
+		'@ianvs/prettier-plugin-sort-imports',
+		'prettier-plugin-tailwindcss',
+	],
 };

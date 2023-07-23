@@ -5,8 +5,11 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { ToastActionElement, ToastProps } from '~/src/components/toast/toast';
 
+// Increase this limit to display multiple toasts at a time.
 const TOAST_LIMIT = 1;
-const TOAST_REMOVE_DELAY = 1000000;
+
+// 5 minutes.
+const TOAST_REMOVE_DELAY = 5 * 60 * 1000;
 
 type ToasterToast = ToastProps & {
 	id: string;

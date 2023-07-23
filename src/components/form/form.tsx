@@ -25,6 +25,7 @@ import {
 import { TypeOf, ZodSchema } from 'zod';
 
 import { Tail } from '~/src/lib/types';
+import { cn } from '~/src/lib/utils';
 import { FormImperativeSubmitButton } from './form-imperative-submit-button';
 import { FormInput } from './form-input';
 import { FormSubmitButton } from './form-submit-button';
@@ -111,6 +112,7 @@ export const Form = <TFieldValues extends FieldValues>({
 						onError,
 					)}
 					{...props}
+					className={cn('space-y-4', props?.className)}
 				>
 					{children}
 				</form>
