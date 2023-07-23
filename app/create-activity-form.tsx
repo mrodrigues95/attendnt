@@ -1,5 +1,6 @@
 'use client';
 
+import { useTransition } from 'react';
 import { z } from 'zod';
 
 import { Form, useForm } from '~/src/components';
@@ -14,6 +15,7 @@ const schema = z.object({
 });
 
 const CreateActivityForm = () => {
+	const [isPending, startTransition] = useTransition();
 	const { userId } = useAppUserId();
 	const { toast } = useToast();
 	const form = useForm({
@@ -25,18 +27,22 @@ const CreateActivityForm = () => {
 		<Form
 			form={form}
 			aria-label="Create an activity"
-			onSubmit={data =>
-				createActivity(userId!, data.activity).catch(err => {
-					form.setServerError({ message: err });
-					toast({
-						title: 'Uh-oh! Something went wrong.',
-						description: 'There was a problem with your request.',
+			onSubmit={data => {
+				startTransition(() => {
+					createActivity(userId!, data.activity).catch(err => {
+						form.setServerError({ message: err });
+						toast({
+							title: 'Uh-oh! Something went wrong.',
+							description: 'There was a problem with your request.',
+						});
 					});
-				})
-			}
+				});
+			}}
 		>
 			<Form.Input name="activity" label="Activity" isRequired />
-			<Form.ImperativeSubmit>Submit</Form.ImperativeSubmit>
+			<Form.ImperativeSubmit isPendingTransition={isPending}>
+				Submit
+			</Form.ImperativeSubmit>
 		</Form>
 	);
 };

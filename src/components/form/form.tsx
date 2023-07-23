@@ -37,7 +37,6 @@ interface ImperativeForm {
 
 const ImperativeFormContext = createContext<ImperativeForm | null>(null);
 
-// TODO: Use e.preventDefault() instead?
 export const useImperativeForm = () =>
 	useContext(ImperativeFormContext) as ImperativeForm;
 

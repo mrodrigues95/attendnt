@@ -15,17 +15,19 @@ interface AriaLabels {
 
 interface FormImperativeSubmitButtonProps extends ButtonProps {
 	labels?: AriaLabels;
+	isPendingTransition?: boolean;
 }
 
 export const FormImperativeSubmitButton = ({
 	labels,
 	children,
+	isPendingTransition,
 	...props
 }: FormImperativeSubmitButtonProps) => {
 	const { formState } = useFormContext();
 	const { onBlockSubmission } = useImperativeForm();
 
-	const isSubmitting = formState.isSubmitting;
+	const isSubmitting = isPendingTransition || formState.isSubmitting;
 
 	const isSubmitSuccessful =
 		formState.isSubmitted &&
