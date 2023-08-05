@@ -1,4 +1,4 @@
-import CreateActivityForm from './create-activity-form';
+import { CreateActivityForm } from './components';
 
 const Page = () => {
 	return (

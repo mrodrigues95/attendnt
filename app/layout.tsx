@@ -4,10 +4,10 @@ import { ReactNode } from 'react';
 import { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
 
-import { Analytics, Toaster } from '~/src/components';
+import { Toaster } from '~/src/components';
 import { siteConfig } from '~/src/config/site';
 import { cn } from '~/src/lib/utils';
-import { InitializeAppUser } from './initialize-app-user';
+import { InitializeAppUser, Analytics } from './components';
 
 const fontSans = FontSans({
 	subsets: ['latin'],

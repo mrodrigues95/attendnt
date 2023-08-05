@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { Form, useForm } from '~/src/components';
 import { useAppUserId, useToast } from '~/src/lib/hooks';
-import { createActivity } from './actions';
+import { createActivity } from '../actions';
 
 const schema = z.object({
 	activity: z
@@ -14,7 +14,7 @@ const schema = z.object({
 		.max(256, 'Activity has exceeded the maximum character length.'),
 });
 
-const CreateActivityForm = () => {
+export const CreateActivityForm = () => {
 	const [isPending, startTransition] = useTransition();
 	const { userId } = useAppUserId();
 	const { toast } = useToast();
@@ -46,5 +46,3 @@ const CreateActivityForm = () => {
 		</Form>
 	);
 };
-
-export default CreateActivityForm;

@@ -1,17 +1,10 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { kv } from '@vercel/kv';
 import { customAlphabet } from 'nanoid';
 
-const USER_KEYS = {
-	base: (userId: string) => `users:${userId}` as const,
-};
-
-const ACTIVITY_KEYS = {
-	base: (activityId: string) => `activities:${activityId}` as const,
-	participants: (activityId: string) =>
-		`${ACTIVITY_KEYS.base(activityId)}:participants` as const,
-};
+import { ACTIVITY_KEYS, USER_KEYS } from '~/src/lib/redis';
 
 const ALPHABET =
 	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -45,5 +38,5 @@ export const createActivity = async (
 		kv.hsetnx(USER_KEYS.base(creatorId), 'id', creatorId),
 	]);
 
-	return activity;
+	redirect(`/activities/${id}`);
 };
